@@ -1,0 +1,114 @@
+#import select
+#import pytest
+#import shutil
+#import pytest_reportlog as reportlog
+#para usar opções de pausa entre as funções
+#import time
+#time.sleep(5)
+#from selenium.webdriver.support.ui import WebDriverWait
+#driver.implicitly_wait(10)
+#from selenium.webdriver.support import expected_conditions as EC
+#element = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.ID, 'someid')))
+#from selenium.webdriver.common.keys import Keys
+
+
+
+
+
+#Criando log
+# pytest --html=report.html arquivo.py 
+
+# def pytest_sessionstart(session):
+#     session.screenshots_count = 1
+
+# def pytest_runtest_makereport(item, call):
+#     if "incremental" in item.keywords:
+#         if call.excinfo is not None:
+#             parent = item.parent
+#             parent._screenshots_count += 1
+#             filename = f"{parent.name}-{parent._screenshots_count}.png"
+#             item.parent.session.capture(filename)
+
+# def pytest_runtest_makereport(item, call):
+#     if "incremental" in item.keywords:
+#         if call.excinfo is not None:
+#             parent = item.parent
+#             parent._screenshots_count += 1
+#             filename = f"{parent.name}-{parent._screenshots_count}.png"
+#             item.parent.session.capture(filename)
+#             if "html" in item.config.pluginmanager.get_plugin_names():
+#                 extra = getattr(item, '_extra', [])
+#                 extra.append(pytest_html.extras.image(filename))
+#                 item._extra = extra
+
+#Acessando o site
+# def test_access_website():
+#     driver = webdriver.Chrome()
+#     driver.get('https://dgarciasaltori.github.io/teste/home.html')
+
+#Inicio da operação de cadastro
+
+#Ação de clicar no botão
+# def button_click():
+#     driver = webdriver.Chrome()
+#     button = driver.find_element(By.XPATH, '')
+#     button.click()
+
+#Preenchendo formulários cadastro
+# def form_assert():
+#     driver = webdriver.Chrome()
+#     #Nome
+#     name_field = driver.find_element(By.XPATH, '')
+#     name_field.send_keys('')
+#     #Sobrenome
+#     lastname_field = driver.find_element(By.XPATH, '')
+#     lastname_field.send_keys('')
+#     #Celular ou E-mail
+#     cel_mail_field = driver.find_element(By.XPATH, '')
+#     cel_mail_field.send_keys('')
+#     #Senha
+#     password_field = driver.find_element(By.XPATH, '')
+#     password_field.send_keys('')
+#     #Data
+#     day_dropdown = select(day_dropdown.find_element(By.XPATH, ''))
+#     day_dropdown.select_by_visible_text('')
+#     mouth_dropdown = select(mouth_dropdown.find_element(By.XPATH, ''))
+#     mouth_dropdown.select_by_visible_text('')
+#     year_dropdown = select(year_dropdown.find_element(By.XPATH, ''))
+#     year_dropdown.select_by_visible_text('')
+#     #Genero
+#     checkbox = driver.find_element(By.XPATH, '')
+#     checkbox.click()
+#     #Enviando
+#     button = driver.find_element(By.XPATH, '')
+#     button.click()
+
+
+# def login():
+#     driver = webdriver.Chrome()
+#     nickname_mail_field = driver.find_element(By.XPATH, '')
+#     nickname_mail_field.send_keys('')
+#     #Senha
+#     password_field = driver.find_element(By.XPATH, '')
+#     password_field.send_keys('')
+#     button = driver.find_element(By.XPATH, '')
+#     button.click()
+
+#Criando Video
+# def teardown_module(module):
+#     shutil.move("test_video.mp4","videos")
+
+def pytest_runtest_makereport(item, call):
+            if "incremental" in item.keywords:
+                if call.excinfo is not None:
+                    extra = getattr(item, "extra", {})
+                    extra['browser'] = item.funcargs['browser']
+                    item.extra = extra
+        def pytest_html_results_table_row(report, cells):
+            if report.when == 'call':
+                if 'browser' in report.extra:
+                    browser = report.extra['browser']
+                    browser.save_screenshot('screenshot.png')
+                    cells.insert(2, html.td(html.img(src='screenshot.png', height=120)))
+        def pytest_html_results_table_header(cells):
+            cells.insert(2, html.th('Screenshot'))
